@@ -1,0 +1,12 @@
+#!/bin/sh
+gcc -Wall $(ncursesw6-config --cflags --libs) test.c convert.c -lncursesw -o test
+
+
+
+
+#gcc test.c -lncurses -o test
+#gcc -std=c99 test.c -lncurses -o test
+#gcc -o test -std=c99 $(ncursesw6-config --cflags --libs) test.c
+
+#-ldialog -lncursesw -lm
+# gcc $(dialog-config --cflags) file ... $(dialog-config --libs)
