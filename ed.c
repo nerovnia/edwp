@@ -1,3 +1,10 @@
+/*
+  This file is part of EDWP
+  (Energy dispatcher work place)
+  Copyright (c) 2021 by Volodymyr Nerovnia
+  License: Apache 2.0
+*/
+
 #include <locale.h>
 #include <curses.h> 
 #include <stdlib.h> 
@@ -7,6 +14,9 @@
 /* define color pair */ 
 #define WATER_PAIR     1
 #define SELECT_ITEM    2
+
+#define KEY_ESC       27
+
 
 struct box_char {
   const int* lt;
@@ -40,7 +50,7 @@ wchar_t b_str_header[] = L"Про програму...";
 int data_init(void);
 int paint_box(int, int, int, int, wchar_t*, struct box_char);
 int box_header(int, int, int, wchar_t*);
-int create_menu(struct menu);
+int create_menu(struct menu, struct box_char);
 
 
 struct menu_item m_mi[9];
@@ -48,22 +58,21 @@ struct menu m;
 
 int main() {
   initscr();
-
   getmaxyx(stdscr, max_row, max_col);  	
   setlocale(LC_ALL, "");
 
   noecho();
   curs_set(FALSE);
+  keypad (stdscr, TRUE);
 
   start_color();
   data_init();
 
   attron(COLOR_PAIR(WATER_PAIR));
 
-  create_menu(m);
+  create_menu(m, B_DOUBLE);
 
   refresh();
-  getchar();
   curs_set(TRUE);
   endwin();
   return 0;
@@ -81,14 +90,14 @@ int data_init(void) {
   m.header = L"Пошкодження";
   m.sel_it = 0;
 
-  m_mi[0].name = L"... на к/м";
-  m_mi[1].name = L"... на АБ";
-  m_mi[2].name = L"... на ПЕ";
-  m_mi[3].name = L"... на ПЛ-10кВ";
-  m_mi[4].name = L"... на ПЛ-0.4кВ";
+  m_mi[0].name = L"... на к/м      ";
+  m_mi[1].name = L"... на АБ       ";
+  m_mi[2].name = L"... на ПЕ       ";
+  m_mi[3].name = L"... на ПЛ-10кВ  ";
+  m_mi[4].name = L"... на ПЛ-0.4кВ ";
   m_mi[5].name = L"... на ПЛ-0.23кВ";
-  m_mi[6].name = L"... на КЛ-10кВ";
-  m_mi[7].name = L"... на КЛ-0.4кВ";
+  m_mi[6].name = L"... на КЛ-10кВ  ";
+  m_mi[7].name = L"... на КЛ-0.4кВ ";
   m_mi[8].name = L"... на КЛ-0.23кВ";
 
   /* Init structure B_SINGLE */
@@ -112,7 +121,7 @@ int data_init(void) {
 }
 
 /* Create menu */
-int create_menu(struct menu m) {
+int create_menu(struct menu m, struct box_char box_type) {
   int xb = 0;
   int yb = 0;
   /* Top and left merging */
@@ -130,11 +139,59 @@ int create_menu(struct menu m) {
   width = max_len + lm * 2;
   xb = ceil((max_col - width) / 2);
   yb = ceil((max_row - height) / 2);
-  paint_box(yb, xb, height, width, m.header, B_DOUBLE);
+  paint_box(yb, xb, height, width, m.header, box_type);
   for (int i = 0; i < m.size; i++) {
     (i == 0) ? attron(COLOR_PAIR(SELECT_ITEM)) : attron(COLOR_PAIR(WATER_PAIR));
     mvaddwstr(i + yb + tm, xb + lm, m.mi[i].name);
   }
+
+  int ch = 0;
+  while( ch != KEY_ESC ) {
+    ch = getch();
+    switch (ch) {
+      case KEY_UP:
+        attron(COLOR_PAIR(WATER_PAIR));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        if ( m.sel_it != 0) {
+          m.sel_it--;
+        } else {
+          m.sel_it = m.size-1;
+        }
+        attron(COLOR_PAIR(SELECT_ITEM));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        break;
+      case KEY_DOWN:
+        attron(COLOR_PAIR(WATER_PAIR));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        if ( m.sel_it != (m.size-1)) {
+          m.sel_it++;
+        } else {
+          m.sel_it = 0;
+        }
+        attron(COLOR_PAIR(SELECT_ITEM));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        break;
+      case KEY_LEFT:
+      case KEY_HOME:
+      case KEY_PPAGE:
+        attron(COLOR_PAIR(WATER_PAIR));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        m.sel_it = 0;
+        attron(COLOR_PAIR(SELECT_ITEM));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        break;
+      case KEY_RIGHT:
+      case KEY_END:
+      case KEY_NPAGE:
+        attron(COLOR_PAIR(WATER_PAIR));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        m.sel_it = m.size-1;
+        attron(COLOR_PAIR(SELECT_ITEM));
+        mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        break;
+    }
+  }  
+
   
   return 0;
 }
@@ -171,7 +228,6 @@ int paint_box(int s_y, int s_x, int height, int width, wchar_t* str_header, stru
       box_header(s_y, s_x, width, str_header);
     }
   }
-
   return 0;
 }
 

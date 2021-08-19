@@ -1,7 +1,11 @@
 #!/bin/sh
 gcc -Wall $(ncursesw6-config --cflags --libs) ed.c -lncursesw -o ed.out
-#gcc -Wall $(ncursesw6-config --cflags --libs) test/test.c test/convert.c -lncursesw -o test.out
 
+#gcc -Wall $(ncursesw6-config --cflags --libs) test/test.c -lncursesw -o ed.out
+#gcc -Wall $(ncursesw6-config --cflags --libs) test/test3.c -lncursesw -o ed.out
+
+
+#gcc -Wall $(ncursesw6-config --cflags --libs) test/test.c test/convert.c -lncursesw -o test.out
 #gcc -Wall $(ncursesw6-config --cflags --libs) test/test2.c -lncursesw -o test.out
 
 

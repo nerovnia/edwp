@@ -6,10 +6,12 @@
   Need reelease some controls:
   
    - places for input:
+   - one-row data
+   - multi-row data
    - time
    - date
-   - buttons
-
+   - cpecial buttons
+   - km pk
 
 ### Release:
 
@@ -18,10 +20,10 @@
   
 ### Expected:
 
-   - processing push service buttons
-   - output text in color with background color
-   - vertical/horizontal menu
-
+   - horizontal menu
+   - in vertical menu add:
+     submenu
+     group some menu in one window
    
 ### Release:
 
@@ -29,6 +31,11 @@
 
   Application can:
 
-   - Paint two types of box single and double with text header.
+   - Application has a text colour interface
+   - Can paint two types of box single and double with text header.
    - Box can be posisioned on the screen.
+   - Can create vertical menu
+   - Show menu on the center of screen
+   - Use special keys to move menu cursor
+     UP, DOWN, LEFT, RIGHT, HOME, END, PG_UP, PG_DOWN
 
