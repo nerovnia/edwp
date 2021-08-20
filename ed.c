@@ -11,11 +11,13 @@
 #include <math.h> 
 #include <wchar.h> 
 
+
 /* define color pair */ 
 #define WATER_PAIR     1
 #define SELECT_ITEM    2
 #define HEADER_LINE    3
 #define CELLAR_LINE    4
+#define BG_COLOR_PAIR  5
 
 #define KEY_ESC       27
 
@@ -51,6 +53,7 @@ int box_header(int, int, int, wchar_t*);
 int create_menu(struct menu, struct box_char, int, int);
 int paint_menu(int*, int*, int, int, struct menu, struct box_char, int, int);
 int decorate(void);
+int decorate_screen(void);
 int print_fill_string(int, wchar_t*, int);
 
 struct wdecorate wd;
@@ -97,6 +100,8 @@ int data_init(void) {
 
   init_pair(HEADER_LINE, COLOR_WHITE, COLOR_BLUE);
   init_pair(CELLAR_LINE, COLOR_BLUE, COLOR_CYAN);
+
+  init_pair(BG_COLOR_PAIR, COLOR_CYAN, COLOR_BLUE);
 
   /* Init menu */
   m.mi = m_mi;
@@ -269,6 +274,7 @@ int box_header(int y, int x, int width, wchar_t* str) {
 int decorate(void) {
   print_fill_string(0, wd.header, HEADER_LINE);
   print_fill_string(max_row-1, wd.cellar, CELLAR_LINE);
+  decorate_screen();
   return 0;
 }
 
@@ -286,7 +292,7 @@ int print_fill_string(int y, wchar_t* str, int color_pair) {
       *(header_str + i) = str[k];
       k++;
     }
-    for(int i = lsp_and_str; i < (max_col); i++) {
+    for(int i = lsp_and_str; i < max_col; i++) {
       *(header_str + i)  = L' ';
     }
     *(header_str + max_col)  = L'\0';
@@ -295,4 +301,18 @@ int print_fill_string(int y, wchar_t* str, int color_pair) {
     free(header_str);
   } 
   return 0;
+}
+
+int decorate_screen(void) {
+    wchar_t* fill_str = (wchar_t *) malloc((max_col + 1 )* sizeof(wchar_t));
+    for(int i = 0; i < max_col; i++) {
+      *(fill_str + i) = 0x2591;
+    }
+    *(fill_str + max_col)  = L'\0';
+    attron(COLOR_PAIR(BG_COLOR_PAIR));
+    for(int i = 1; i < (max_row - 1); i++) {
+      mvaddwstr(i, 0, fill_str);
+    }
+    free(fill_str);
+  return 0;  
 }
