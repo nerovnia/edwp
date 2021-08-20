@@ -10,7 +10,7 @@
    - multi-row data
    - time
    - date
-   - cpecial buttons
+   - special buttons
    - km pk
 
 ### Release:
@@ -24,8 +24,10 @@
    - in vertical menu add:
      submenu
      group some menu in one window
-   
-### Release:
+   - not show and run menu if it size more then size terminal screen  
+   - screen decorate fill
+
+   ### Release:
 
 ## Beta version
 
@@ -33,9 +35,10 @@
 
    - Application has a text colour interface
    - Can paint two types of box single and double with text header.
-   - Box can be posisioned on the screen.
+   - Box can be positioned on the screen.
    - Can create vertical menu
    - Show menu on the center of screen
    - Use special keys to move menu cursor
      UP, DOWN, LEFT, RIGHT, HOME, END, PG_UP, PG_DOWN
+   - include reaction to change screen size
 
