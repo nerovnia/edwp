@@ -11,71 +11,28 @@
 #include <math.h> 
 #include <wchar.h> 
 
+#include "include/box.h"
+#include "include/menu.h"
+#include "include/decorate.h"
+#include "include/main.h"
 
-/* define color pair */ 
-#define WATER_PAIR     1
-#define SELECT_ITEM    2
-#define HEADER_LINE    3
-#define CELLAR_LINE    4
-#define BG_COLOR_PAIR  5
 
-#define KEY_ESC       27
 
-struct box_char {
-  const int* lt;
-  const int* rt;
-  const int* lb;
-  const int* rb;
-  const int* hl;
-  const int* vl;
-  const int* sp;
-};
 
-struct wdecorate {
-  wchar_t* header;  
-  wchar_t* cellar;  
-};
-
-struct menu_item {
-  wchar_t* name;  
-};
-
-struct menu {
-  wchar_t* header;
-  struct menu_item* mi;
-  int size;
-  int sel_it;
-};
 
 int data_init(void);
-int paint_box(int, int, int, int, wchar_t*, struct box_char, int);
-int box_header(int, int, int, wchar_t*);
-int create_menu(struct menu, struct box_char, int, int);
-int paint_menu(int*, int*, int, int, struct menu, struct box_char, int, int);
-int decorate(void);
-int decorate_screen(void);
-int print_fill_string(int, wchar_t*, int);
 
-struct wdecorate wd;
-
-struct box_char B_SINGLE;
-struct box_char B_DOUBLE;
-
-int max_row;
-int max_col;
-
-wchar_t b_str_header[] = L"Про програму...";
-
-struct menu_item m_mi[9];
-struct menu m;
+wchar_t str_header[] = L"Про програму...";
 
 int main() {
   initscr();
   getmaxyx(stdscr, max_row, max_col);  	
   setlocale(LC_ALL, "");
+  mousemask( ALL_MOUSE_EVENTS, NULL); 
   noecho();
   curs_set(FALSE);
   keypad (stdscr, TRUE);
+  cbreak();
   start_color();
 
   data_init();
@@ -83,6 +40,7 @@ int main() {
   create_menu(m, B_DOUBLE, WATER_PAIR, SELECT_ITEM);
 
   refresh();
+  nocbreak();
   curs_set(TRUE);
   endwin();
   return 0;
@@ -90,6 +48,8 @@ int main() {
 
 /* Init data */
 int data_init(void) {
+  b_str_header = str_header;
+
   /* Init header/cellar to decorate main window */
   wd.header = L"-= Energy dispatcher work place =-";
   wd.cellar = L"Copyright (c) 2021 by Volodymyr Nerovnia";
@@ -226,93 +186,6 @@ int paint_menu(int* yb, int* xb, int tm, int lm, struct menu m, struct box_char 
   return 0;
 }
 
-/* Paint wondow box */
-int paint_box(int s_y, int s_x, int height, int width, wchar_t* str_header, struct box_char bc, int color_pair) {
-  attron(COLOR_PAIR(color_pair));
-  for(int y = 0; y < height; y++) {
-    for(int x = 0; x < width; x++) {
-      if (( x != 0) || ( y !=0) || ( x != (width -1)) || (y != (height -1)))
-        mvaddwstr(y + s_y, x + s_x, bc.sp);
-      if ( x == 0 ) {
-        if ( y == 0) {
-          mvaddwstr(y + s_y, x + s_x, bc.lt);
-        } else if ( y == (height-1)) {
-          mvaddwstr(y + s_y, x + s_x, bc.lb);
-        } else {
-          mvaddwstr(y + s_y, x + s_x, bc.vl);
-        }
-      }
 
-      if ( x == (width-1) ) {
-        if ( y == 0) {
-          mvaddwstr(y + s_y, x + s_x, bc.rt);
-        } else if ( y == (height-1)) {
-          mvaddwstr(y + s_y, x + s_x, bc.rb);
-        } else {
-          mvaddwstr(y + s_y, x + s_x, bc.vl);
-        }
-      }
 
-      if (((y == 0) || (y == (height-1))) && ( x !=0 ) && ( x != (width-1))) {
-          mvaddwstr(y + s_y, x + s_x, bc.hl);
-      }
 
-      box_header(s_y, s_x, width, str_header);
-    }
-  }
-  return 0;
-}
-
-/* Show box header */
-int box_header(int y, int x, int width, wchar_t* str) {
-  int x_pos = x + ceil(width/2 - wcslen(str)/2);
-  mvaddwstr(y, x_pos, str);
-  return 0;
-}
-
-/* Show header and cellar with name of application and copyright*/
-int decorate(void) {
-  print_fill_string(0, wd.header, HEADER_LINE);
-  print_fill_string(max_row-1, wd.cellar, CELLAR_LINE);
-  decorate_screen();
-  return 0;
-}
-
-/* Show string on all width screen */
-int print_fill_string(int y, wchar_t* str, int color_pair) {
-  if (wcslen(str) < max_col) {
-    wchar_t* header_str = (wchar_t *) malloc((max_col + 1 )* sizeof(wchar_t));
-    int l_sp = abs(ceil(max_col / 2 - wcslen(str)/2));
-    for(int i = 0; i < l_sp; i++) {
-      *(header_str + i) = L' ';
-    }
-    int lsp_and_str = (l_sp + wcslen(str));
-    int k=0;
-    for(int i = l_sp; i < lsp_and_str; i++) {
-      *(header_str + i) = str[k];
-      k++;
-    }
-    for(int i = lsp_and_str; i < max_col; i++) {
-      *(header_str + i)  = L' ';
-    }
-    *(header_str + max_col)  = L'\0';
-    attron(COLOR_PAIR(color_pair));
-    mvaddwstr(y, 0, header_str);
-    free(header_str);
-  } 
-  return 0;
-}
-
-int decorate_screen(void) {
-    wchar_t* fill_str = (wchar_t *) malloc((max_col + 1 )* sizeof(wchar_t));
-    for(int i = 0; i < max_col; i++) {
-      *(fill_str + i) = 0x2591;
-    }
-    *(fill_str + max_col)  = L'\0';
-    attron(COLOR_PAIR(BG_COLOR_PAIR));
-    for(int i = 1; i < (max_row - 1); i++) {
-      mvaddwstr(i, 0, fill_str);
-    }
-    free(fill_str);
-  return 0;  
-}

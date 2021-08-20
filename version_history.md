@@ -25,7 +25,6 @@
      submenu
      group some menu in one window
    - not show and run menu if it size more then size terminal screen  
-
    ### Release:
 
 ## Beta version
@@ -41,4 +40,5 @@
      UP, DOWN, LEFT, RIGHT, HOME, END, PG_UP, PG_DOWN
    - include reaction to change screen size
    - screen decorate fill
+   - disable select on screen 
 
