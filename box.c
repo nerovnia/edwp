@@ -10,7 +10,9 @@
 /* Show box header */
 int box_header(int y, int x, int width, wchar_t* str) {
   int x_pos = x + ceil(width/2 - wcslen(str)/2);
+  attron(A_BOLD);
   mvaddwstr(y, x_pos, str);
+  attroff(A_BOLD);
   return 0;
 }
 

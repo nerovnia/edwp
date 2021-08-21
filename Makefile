@@ -2,10 +2,10 @@
 #	gcc -Wall $(ncursesw6-config --cflags --libs) ed.c box.c form.c decorate.c -lncursesw -o ed.out
 
 
-all: ed
+all: ed.out
 
-ed: ed.o box.o form.o decorate.o
-	gcc ed.o box.o form.o decorate.o -lncursesw -o ed
+ed.out: ed.o box.o form.o decorate.o
+	gcc ed.o box.o form.o decorate.o -lncursesw -o ed.out
 
 ed.o: ed.c
 	gcc -c -Wall $(ncursesw6-config --cflags --libs) ed.c
@@ -21,4 +21,4 @@ decorate.o: decorate.c
 
 
 clean:
-	rm -rf *.o ed	
+	rm -rf *.o ed.out

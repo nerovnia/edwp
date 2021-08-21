@@ -8,5 +8,15 @@
 #ifndef CONTROL_H_
 #define CONTROL_H_
 
+#include <curses.h> 
+#include <wchar.h> 
+
+struct control {
+  wchar_t* name;
+  int x;
+  int y;
+  int width;
+  int height;  
+};
 
 #endif /* CONTROL_H_ */

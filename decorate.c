@@ -10,7 +10,9 @@
 
 /* Show header and cellar with name of application and copyright*/
 int decorate(void) {
+  attron(A_BOLD);
   print_fill_string(0, wd.header, HEADER_LINE);
+  attroff(A_BOLD);
   print_fill_string(max_row-1, wd.cellar, CELLAR_LINE);
   decorate_screen();
   return 0;

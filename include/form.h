@@ -9,6 +9,19 @@
 #define FORM_H_
 
 #include <curses.h> 
+#include <wchar.h> 
+#include "box.h"
+#include "control.h"
+#include "main.h"
 
+struct form {
+  wchar_t* header;
+  struct control* ct;
+  int size;
+  int sel_ct;
+};
+
+int create_form(struct form, struct box_char, int, int);
+int paint_form(int*, int*, int, int, struct menu, struct box_char, int, int);
 
 #endif /* FORM_H_ */

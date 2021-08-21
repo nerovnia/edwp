@@ -16,10 +16,6 @@
 #include "include/decorate.h"
 #include "include/main.h"
 
-
-
-
-
 int data_init(void);
 
 wchar_t str_header[] = L"Про програму...";
@@ -128,7 +124,9 @@ int create_menu(struct menu m, struct box_char box_type, int cp_unselected, int 
           m.sel_it = m.size-1;
         }
         attron(COLOR_PAIR(cp_selected));
+        attron(A_BOLD);
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        attroff(A_BOLD);
         break;
       case KEY_DOWN:
         attron(COLOR_PAIR(cp_unselected));
@@ -139,7 +137,9 @@ int create_menu(struct menu m, struct box_char box_type, int cp_unselected, int 
           m.sel_it = 0;
         }
         attron(COLOR_PAIR(cp_selected));
+        attron(A_BOLD);
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        attroff(A_BOLD);
         break;
       case KEY_LEFT:
       case KEY_HOME:
@@ -148,7 +148,9 @@ int create_menu(struct menu m, struct box_char box_type, int cp_unselected, int 
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
         m.sel_it = 0;
         attron(COLOR_PAIR(cp_selected));
+        attron(A_BOLD);
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        attroff(A_BOLD);
         break;
       case KEY_RIGHT:
       case KEY_END:
@@ -157,7 +159,9 @@ int create_menu(struct menu m, struct box_char box_type, int cp_unselected, int 
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
         m.sel_it = m.size-1;
         attron(COLOR_PAIR(cp_selected));
+        attron(A_BOLD);
         mvaddwstr(m.sel_it + yb + tm, xb + lm, m.mi[m.sel_it].name);
+        attroff(A_BOLD);
         break;
     }
   }  
@@ -179,7 +183,12 @@ int paint_menu(int* yb, int* xb, int tm, int lm, struct menu m, struct box_char 
   *(yb) = ceil((max_row - height) / 2);
   paint_box(*(yb), *(xb), height, width, m.header, box_type, cp_unselected);
   for (int i = 0; i < m.size; i++) {
-    (i == m.sel_it) ? attron(COLOR_PAIR(cp_selected)) : attron(COLOR_PAIR(cp_unselected));
+    if (i == m.sel_it) {
+      attron(COLOR_PAIR(cp_selected) | A_BOLD);
+    } else { 
+      attron(COLOR_PAIR(cp_unselected)); 
+      attroff(A_BOLD);
+    }
     mvaddwstr(i + *(yb) + tm, *(xb) + lm, m.mi[i].name);
   }
   refresh();

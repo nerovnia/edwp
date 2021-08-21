@@ -40,5 +40,7 @@
      UP, DOWN, LEFT, RIGHT, HOME, END, PG_UP, PG_DOWN
    - include reaction to change screen size
    - screen decorate fill
-   - disable select on screen 
+   - disable select on screen
+   - set bold header of main application window
+   - set bold header and select menu item
 
