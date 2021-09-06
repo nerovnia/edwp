@@ -12,15 +12,19 @@
 #include <wchar.h> 
 #include <stdlib.h> 
 #include <math.h> 
-#include "main.h"
+#include "box.h"
+
+
+struct box_char B_SINGLE;
+struct box_char B_DOUBLE;
 
 struct wdecorate {
   wchar_t* header;  
   wchar_t* cellar;  
 };
 
-int decorate(void);
-int decorate_screen(void);
-int print_fill_string(int, wchar_t*, int);
+int decorate(int, int, struct wdecorate);
+int decorate_screen(int, int);
+int print_fill_string(int, int, wchar_t*, int);
 
 #endif /* DECORATE_H_ */

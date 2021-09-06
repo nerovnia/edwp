@@ -5,12 +5,9 @@
   License: Apache 2.0
 */
 
-#ifndef FORM_H_
-#define FORM_H_
+#ifndef KEY_H_
+#define KEY_H_
 
-#include <curses.h> 
-#include "key.h" 
+#define KEY_ESC       27
 
-int create_form(int);
-
-#endif /* FORM_H_ */
+#endif /* KEY_H_ */

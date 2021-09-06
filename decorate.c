@@ -7,19 +7,39 @@
 
 #include "include/decorate.h" 
 
+int init(void) {
+  /* Init structure B_SINGLE */
+  B_SINGLE.lt = L"\u250C";
+  B_SINGLE.rt = L"\u2510";
+  B_SINGLE.lb = L"\u2514";
+  B_SINGLE.rb = L"\u2518";
+  B_SINGLE.hl = L"\u2500";
+  B_SINGLE.vl = L"\u2502";
+  B_SINGLE.sp = L"\x20";
+
+  /* Init structure B_DOUBLE */
+  B_DOUBLE.lt = L"\u2554";
+  B_DOUBLE.rt = L"\u2557";
+  B_DOUBLE.lb = L"\u255A";
+  B_DOUBLE.rb = L"\u255D";
+  B_DOUBLE.hl = L"\u2550";
+  B_DOUBLE.vl = L"\u2551";
+  B_DOUBLE.sp = L"\x20";
+}
 
 /* Show header and cellar with name of application and copyright*/
-int decorate(void) {
+int decorate(int max_col, int max_row, struct wdecorate wd) {
+  init();
   attron(A_BOLD);
-  print_fill_string(0, wd.header, HEADER_LINE);
+  print_fill_string(0, max_col, wd.header, HEADER_LINE);
   attroff(A_BOLD);
-  print_fill_string(max_row-1, wd.cellar, CELLAR_LINE);
-  decorate_screen();
+  print_fill_string(max_row-1, max_col, wd.cellar, CELLAR_LINE);
+  decorate_screen(max_col, max_row);
   return 0;
 }
 
 /* Show string on all width screen */
-int print_fill_string(int y, wchar_t* str, int color_pair) {
+int print_fill_string(int y, int max_col, wchar_t* str, int color_pair) {
   if (wcslen(str) < max_col) {
     wchar_t* header_str = (wchar_t *) malloc((max_col + 1 ) * sizeof(wchar_t));
     int l_sp = abs(ceil(max_col / 2 - wcslen(str)/2));
@@ -43,7 +63,7 @@ int print_fill_string(int y, wchar_t* str, int color_pair) {
   return 0;
 }
 
-int decorate_screen(void) {
+int decorate_screen(int max_col, int max_row) {
     wchar_t* fill_str = (wchar_t *) malloc((max_col + 1 ) * sizeof(wchar_t));
     for(int i = 0; i < max_col; i++) {
       *(fill_str + i) = 0x2591;

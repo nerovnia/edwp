@@ -19,9 +19,6 @@
 #define CELLAR_LINE    4
 #define BG_COLOR_PAIR  5
 
-#define KEY_ESC       27
-
-
 struct box_char {
   const int* lt;
   const int* rt;
