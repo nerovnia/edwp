@@ -16,6 +16,7 @@
 #include "include/form.h"
 #include "include/decorate.h"
 #include "include/main.h"
+#include "include/window.h"
 
 int data_init(void);
 
@@ -30,7 +31,8 @@ int main() {
 
   decorate(max_col, max_row, wd);
 
-  create_form(WATER_PAIR);
+  //create_form(WATER_PAIR);
+  win();
   //create_menu(m, B_DOUBLE, WATER_PAIR, SELECT_ITEM);
 
   refresh();
