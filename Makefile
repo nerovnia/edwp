@@ -4,8 +4,8 @@
 
 all: ed.out
 
-ed.out: window.o box.o form.o decorate.o menu.o ed.o
-	gcc box.o window.o form.o decorate.o menu.o ed.o -lform -lncursesw -o ed.out
+ed.out: box.o form.o decorate.o menu.o ed.o
+	gcc box.o form.o decorate.o menu.o ed.o -lform -lncursesw -o ed.out
 
 ed.o: ed.c
 	gcc -c -Wall $(ncursesw6-config --cflags --libs) ed.c
@@ -22,8 +22,8 @@ decorate.o: decorate.c
 menu.o: menu.c
 	gcc -c -Wall $(ncursesw6-config --cflags --libs) menu.c
 
-window.o: window.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) window.c
+#window.o: window.c
+#	gcc -c -Wall $(ncursesw6-config --cflags --libs) window.c
 
 clean:
 	rm -rf *.o *.out

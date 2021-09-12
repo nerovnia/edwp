@@ -30,7 +30,7 @@ struct box_char {
 };
 
 
-int paint_box(int, int, int, int, wchar_t*, struct box_char, int);
-int box_header(int, int, int, wchar_t*);
+int paint_box(WINDOW*, int, int, int, int, wchar_t*, struct box_char, int);
+int box_header(WINDOW*, int, int, int, wchar_t*);
 
 #endif /* BOX_H_ */

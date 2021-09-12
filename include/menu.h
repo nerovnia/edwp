@@ -24,7 +24,7 @@ struct menu {
   int sel_it;
 };
 
-int create_menu(struct menu, struct box_char, int, int, struct wdecorate wd);
-int paint_menu(int*, int*, int, int, int, int, struct menu, struct box_char, int, int);
+int create_menu(struct menu, struct box_char, int, int);
+int paint_menu(WINDOW*, int*, int*, int, int, int, int, struct menu, struct box_char, int, int);
 
 #endif /* MENU_H_ */

@@ -24,7 +24,7 @@ int data_init(void);
 struct menu_item m_mi[9];
 
 int main() {
-  WINDOW *form;
+  //WINDOW *form;
 
   init_ncurses();
   data_init();
@@ -32,9 +32,9 @@ int main() {
   decorate(max_col, max_row, wd);
 
   //create_form(WATER_PAIR);
-  win();
-  //create_menu(m, B_DOUBLE, WATER_PAIR, SELECT_ITEM);
-
+  //win();
+  create_menu(m, B_DOUBLE, SELECT_ITEM, WATER_PAIR);
+  touchwin(stdscr);
   refresh();
   getch();
   end_ncurses();

@@ -8,46 +8,46 @@
 #include "include/box.h"
 
 /* Show box header */
-int box_header(int y, int x, int width, wchar_t* str) {
+int box_header(WINDOW *win, int y, int x, int width, wchar_t* str) {
   int x_pos = x + ceil(width/2 - wcslen(str)/2);
   attron(A_BOLD);
-  mvaddwstr(y, x_pos, str);
+  mvwaddwstr(win, y, x_pos, str);
   attroff(A_BOLD);
   return 0;
 }
 
 /* Paint wondow box */
-int paint_box(int s_y, int s_x, int height, int width, wchar_t* str_header, struct box_char bc, int color_pair) {
+int paint_box(WINDOW *win, int s_y, int s_x, int height, int width, wchar_t* str_header, struct box_char bc, int color_pair) {
   attron(COLOR_PAIR(color_pair));
   for(int y = 0; y < height; y++) {
     for(int x = 0; x < width; x++) {
       if (( x != 0) || ( y !=0) || ( x != (width -1)) || (y != (height -1)))
-        mvaddwstr(y + s_y, x + s_x, bc.sp);
+        mvwaddwstr(win, y + s_y, x + s_x, bc.sp);
       if ( x == 0 ) {
         if ( y == 0) {
-          mvaddwstr(y + s_y, x + s_x, bc.lt);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.lt);
         } else if ( y == (height-1)) {
-          mvaddwstr(y + s_y, x + s_x, bc.lb);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.lb);
         } else {
-          mvaddwstr(y + s_y, x + s_x, bc.vl);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.vl);
         }
       }
 
       if ( x == (width-1) ) {
         if ( y == 0) {
-          mvaddwstr(y + s_y, x + s_x, bc.rt);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.rt);
         } else if ( y == (height-1)) {
-          mvaddwstr(y + s_y, x + s_x, bc.rb);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.rb);
         } else {
-          mvaddwstr(y + s_y, x + s_x, bc.vl);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.vl);
         }
       }
 
       if (((y == 0) || (y == (height-1))) && ( x !=0 ) && ( x != (width-1))) {
-          mvaddwstr(y + s_y, x + s_x, bc.hl);
+          mvwaddwstr(win, y + s_y, x + s_x, bc.hl);
       }
 
-      box_header(s_y, s_x, width, str_header);
+      box_header(win, s_y, s_x, width, str_header);
     }
   }
   return 0;

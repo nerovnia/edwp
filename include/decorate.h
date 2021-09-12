@@ -26,5 +26,6 @@ struct wdecorate {
 int decorate(int, int, struct wdecorate);
 int decorate_screen(int, int);
 int print_fill_string(int, int, wchar_t*, int);
+WINDOW *create_newwin(int, int, int, int);
 
 #endif /* DECORATE_H_ */
