@@ -1,0 +1,8 @@
+Package: edwp 
+Version: 0.0.1 
+Section: base 
+Priority: optional 
+Architecture: amd64 
+Depends: ncursesw6
+Maintainer: nerv@i.ua 
+Description: Energy dispatcher work place

@@ -74,7 +74,7 @@ int decorate_screen(int max_col, int max_row) {
       mvaddwstr(i, 0, fill_str);
     }
     free(fill_str);
-  return 0;  
+  return 0;
 }
 
 WINDOW *create_newwin(int height, int width, int st_y, int st_x) {	

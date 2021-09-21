@@ -9,7 +9,6 @@
 
 /*********************************************************************** 
   Function: box_header - Show box header
-  ----------------------------------------------------------------------
   win : window object
   y : y position
   x : x position
@@ -26,7 +25,6 @@ int box_header(WINDOW *win, int y, int x, int width, wchar_t* str) {
 
 /*********************************************************************** 
   Function: paint_box - Paint wondow box
-  ----------------------------------------------------------------------
   win : window object
   s_y : start y position
   s_x : start x position
@@ -37,8 +35,6 @@ int box_header(WINDOW *win, int y, int x, int width, wchar_t* str) {
   color_pair : color decorate pair
 **************************/
 int paint_box(WINDOW *win, int s_y, int s_x, int height, int width, wchar_t* str_header, struct box_char bc, int color_pair) {
-  s_y = 0;
-  s_x = 0;
   attron(COLOR_PAIR(color_pair));
   for(int y = 0; y < height; y++) {
     for(int x = 0; x < width; x++) {
@@ -67,7 +63,6 @@ int paint_box(WINDOW *win, int s_y, int s_x, int height, int width, wchar_t* str
       if (((y == 0) || (y == (height-1))) && ( x !=0 ) && ( x != (width-1))) {
           mvwaddwstr(win, y + s_y, x + s_x, bc.hl);
       }
-
       box_header(win, s_y, s_x, width, str_header);
     }
   }

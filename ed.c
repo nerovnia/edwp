@@ -34,8 +34,8 @@ int main() {
   //create_form(WATER_PAIR);
   //win();
   create_menu(m, B_DOUBLE, SELECT_ITEM, WATER_PAIR);
-  touchwin(stdscr);
-  refresh();
+  //touchwin(stdscr);
+  //refresh();
   getch();
   end_ncurses();
   return 0;
