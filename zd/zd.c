@@ -1,40 +1,42 @@
+/*
+  This file is part of EDWP
+  (Energy dispatcher work place)
+  Copyright (c) 2021 by Volodymyr Nerovnia
+  License: Apache 2.0
+*/ 
+
+/*
+  gcc zd/zd.c -lncursesw -o zd.out
+*/
+
 #include<stdio.h>
-#include<conio.h>
+#include <locale.h>
+#include<curses.h>
+//#include <stddef.h>
+#include <wchar.h>
 
-struct type_struct {
-  char* name;
-};
-
-struct uchastok {
-  int num;
-  char *name;
-};
-
-struct eche {
-  struct uchastok *uch;
-  int num;
-  int km;
-  int pk;
-};
-
-struct psk {
-  char *name;
-  int km;
-  int pk;
-};
+#include"include/zd/zd.h"
 
 void test(void);
+
+void curses_init()
+{
+    initscr();                      // Start ncurses mode
+    noecho();                       // Don't echo keystrokes
+    cbreak();                       // Disable line buffering
+    keypad(stdscr, true);           // Enable special keys to be recorded
+}
 
 struct uchastok uch[3];
 struct eche eche[7];
 
 void main(void) {
   uch[0].num = 0;
-  uch[0].name = "Держ. кордон (РФ) - ст. Ніжин";
+  uch[0].name = L"Р”РµСЂР¶Р°РІРЅРёР№ РєРѕСЂРґРѕРЅ (Р Р¤) - РќС–Р¶РёРЅ";
   uch[1].num = 1;
-  uch[1].name = "ст. Конотоп - ст. Ворожба";
+  uch[1].name = L"РљРѕРЅРѕС‚РѕРї - Р’РѕСЂРѕР¶Р±Р°";
   uch[2].num = 2;
-  uch[2].name = "ст. Бахмач - Пас - Держ. кордон (Білорусь)";
+  uch[2].name = L"Р‘Р°С…РјР°С‡-РџР°СЃ. - Р”РµСЂР¶Р°РІРЅРёР№ РєРѕСЂРґРѕРЅ (Р‘Р )";
 
   eche[0].uch = &uch[0];
   eche[0].num = 14;
@@ -66,12 +68,20 @@ void main(void) {
   eche[5].km = 72;
   eche[5].pk = 8;
   test();
-  printf("Press any key!");
+  printf("Press any key!\n");
   getch();
 }
 
 void test(void) {
+  char* t_locale = setlocale(LC_ALL, NULL);
+  //curses_init();
+  //setlocale(LC_CTYPE, "uk_UA.CP1251");
+  setlocale(LC_ALL, "uk_UA.UTF-8");
   for(int i = 0; i < sizeof(uch)/sizeof(uch[0]); i++) {
-    printf("%s\n", uch[i].name);
+    wprintf(L"%ls\n", uch[i].name);
   }
+  getch();
+  setlocale(LC_CTYPE, t_locale);
+  //refresh();                      // Refresh display
+  //endwin(); 
 }
