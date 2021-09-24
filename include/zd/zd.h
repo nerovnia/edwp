@@ -15,21 +15,22 @@ struct type_struct {
 };
 
 struct uchastok {
-  int num;
+  unsigned int num;
   wchar_t* name;
-};
+} uch[3];
 
 struct eche {
   struct uchastok *uch;
-  int num;
-  int km;
-  int pk;
-};
+  unsigned int num;
+  unsigned int km;
+  unsigned int pk;
+} eche[6];
 
 struct psk {
+  struct uchastok *uch;
   wchar_t* name;
-  int km;
-  int pk;
-};
+  unsigned int km;
+  unsigned int pk;
+} psk[5];
 
 #endif /* ZD_H_ */

@@ -36,3 +36,13 @@ test.o: test/test.c
 
 test.out: test.o
 	gcc test.o -lncursesw -lform -o test.out
+
+
+zd.out: zd.o init.o
+	gcc init.o zd.o -lncursesw -o zd.out
+
+init.o: zd/init.c
+	gcc -c -Wall $(ncursesw6-config --cflags --libs) zd/init.c
+
+zd.o: zd/zd.c
+	gcc -c -Wall $(ncursesw6-config --cflags --libs) zd/zd.c

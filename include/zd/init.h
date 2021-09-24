@@ -5,4 +5,9 @@
   License: Apache 2.0
 */
 
-#include "../include/zd/cech.h"
+#ifndef ZD_INIT_H_
+#define ZD_INIT_H_
+
+void init(void);  
+
+#endif /* ZD_INIT_H_ */
