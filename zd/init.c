@@ -5,9 +5,7 @@
   License: Apache 2.0
 */
 
-#include "../include/zd/cech.h"
 #include "../include/zd/init.h"
-#include "../include/zd/zd.h"
 
 void init(void) {
   // Основні ділянки відділку залізниці
