@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <locale.h>
 #include <curses.h>
-//#include <stddef.h>
 #include <wchar.h>
 
 #include "../include/zd/zd.h"
@@ -20,34 +19,27 @@
 
 void test(void);
 
-void curses_init()
-{
-    initscr();                      // Start ncurses mode
-    noecho();                       // Don't echo keystrokes
-    cbreak();                       // Disable line buffering
-    keypad(stdscr, true);           // Enable special keys to be recorded
+char* t_locale;
+
+void terminal_init() {
+  t_locale = setlocale(LC_ALL, NULL);
+  setlocale(LC_ALL, "uk_UA.UTF-8");
 }
 
-
-//struct uchastok uch[3];
-//struct eche eche[6];
-//struct psk psk[5];
+void terminal_close() {
+  setlocale(LC_CTYPE, t_locale);
+}
 
 int main(void) {
-  char* t_locale = setlocale(LC_ALL, NULL);
-  //curses_init();
-  setlocale(LC_ALL, "uk_UA.UTF-8");
+  terminal_init();
 
   init();
-
-
   test();
+
+  wprintf(L"Press any key!\n");
   getch();
-  setlocale(LC_CTYPE, t_locale);
-  //refresh();                      // Refresh display
-  //endwin(); 
-  printf("Press any key!\n");
-  getch();
+
+  terminal_close();
   return 0;
 }
 

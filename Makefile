@@ -47,8 +47,14 @@ init.o: zd/init.c
 zd.o: zd/zd.c
 	gcc -c -Wall $(ncursesw6-config --cflags --libs) zd/zd.c
 
+#t_mariadb.out: t_mariadb.o
+#	gcc t_mariadb.o -o t_mariadb.out `mysql_config --libs`
+
+#t_mariadb.o: test/t_mariadb.c
+#	gcc -c -Wall `mysql-config --cflags` test/t_mariadb.c
+
 t_mariadb.out: t_mariadb.o
-  gcc t_mariadb.o -o t_mariadb.out
+	gcc t_mariadb.o -lmariadb  -ldl -lm -lpthread -o t_mariadb.out $(mariadb_config --include --libs)
 
 t_mariadb.o: test/t_mariadb.c
-  gcc -c -Wall test/t_mariadb.c	
+	gcc -c -Wall test/t_mariadb.c	$(mariadb_config --include --libs)
