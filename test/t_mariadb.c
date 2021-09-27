@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include "/usr/include/mariadb/mysql.h"
 
+void finish_with_error(MYSQL *conn)
+{
+  fprintf(stderr, "%s\n", mysql_error(conn));
+  mysql_close(conn);
+  exit(1);
+}
+
 int main (int argc, char* argv[])
 {
 
@@ -16,10 +23,10 @@ int main (int argc, char* argv[])
    /* Connect to MariaDB Enterprise */
    if (!mysql_real_connect(
          conn,                 /* Connection */
-         "localhost",/* Host */
+         "0.0.0.0",/* Host */
          "root",            /* User account */
-         "example",   /* User password */
-         "webusers",               /* Default database */
+         "1234",   /* User password */
+         "",               /* Default database */
          3306,                 /* Port number */
          NULL,                 /* Path to socket file */
          0                     /* Additional options */
@@ -32,8 +39,38 @@ int main (int argc, char* argv[])
       exit(1);
    }
 
-   // Use the Connection
-   // ...
+
+
+  if (mysql_query(conn, "show databases")) {
+      finish_with_error(conn);
+  }
+
+  MYSQL_RES *result = mysql_store_result(conn);
+
+  if (result == NULL) {
+      finish_with_error(conn);
+  }
+
+  int num_fields = mysql_num_fields(result);
+
+  MYSQL_ROW row;
+
+  while ((row = mysql_fetch_row(result))) {
+      for(int i = 0; i < num_fields; i++) {
+          printf("%s ", row[i] ? row[i] : "NULL");
+      }
+
+      printf("\n");
+  }
+
+  mysql_free_result(result);
+
+
+
+
+
+
+
 
    // Close the Connection
    mysql_close(conn);
