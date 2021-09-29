@@ -25,7 +25,7 @@ int main (int argc, char* argv[])
          conn,                 /* Connection */
          "0.0.0.0",/* Host */
          "root",            /* User account */
-         "1234",   /* User password */
+         "example",   /* User password */
          "",               /* Default database */
          3306,                 /* Port number */
          NULL,                 /* Path to socket file */
