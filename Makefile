@@ -1,29 +1,18 @@
-#all:
-#	gcc -Wall $(ncursesw6-config --cflags --libs) ed.c box.c form.c decorate.c -lncursesw -o ed.out
+CC=gcc
+CFLAGS=-c -Wall
+LDFLAGS=
+SOURCES=box.c form.c decorate.c init.c menu.c ed.c
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=ed.out
 
+all: $(SOURCES) $(EXECUTABLE)
 
-all: ed.out
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -lform -lncursesw -o ed.out
 
-ed.out: box.o form.o decorate.o menu.o ed.o
-	gcc box.o form.o decorate.o menu.o ed.o -lform -lncursesw -o ed.out
+.cpp.o:
+	$(CC) $(CFLAGS) $(ncursesw6-config --cflags --libs) $< -o $@
 
-ed.o: ed.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) ed.c
-
-box.o: box.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) box.c
-
-form.o: form.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) form.c
-
-decorate.o: decorate.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) decorate.c
-
-menu.o: menu.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) menu.c
-
-#window.o: window.c
-#	gcc -c -Wall $(ncursesw6-config --cflags --libs) window.c
 
 clean:
 	rm -rf *.o *.out
@@ -32,29 +21,29 @@ clean:
 test: test.out
 
 test.o: test/test.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) test/test.c
+	$(CC) $(CFLAGS) $(ncursesw6-config --cflags --libs) test/test.c
 
 test.out: test.o
-	gcc test.o -lncursesw -lform -o test.out
+	$(CC) test.o -lncursesw -lform -o test.out
 
 
 zd.out: zd.o init.o
-	gcc init.o zd.o -lncursesw -o zd.out
+	$(CC) init.o zd.o -lncursesw -o zd.out
 
 init.o: zd/init.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) zd/init.c
+	$(CC) $(CFLAGS) $(ncursesw6-config --cflags --libs) zd/init.c
 
 zd.o: zd/zd.c
-	gcc -c -Wall $(ncursesw6-config --cflags --libs) zd/zd.c
+	$(CC) $(CFLAGS) $(ncursesw6-config --cflags --libs) zd/zd.c
 
 #t_mariadb.out: t_mariadb.o
-#	gcc t_mariadb.o -o t_mariadb.out `mysql_config --libs`
+#	$(CC) t_mariadb.o -o t_mariadb.out `mysql_config --libs`
 
 #t_mariadb.o: test/t_mariadb.c
-#	gcc -c -Wall `mysql-config --cflags` test/t_mariadb.c
+#	$(CC) $(CFLAGS) `mysql-config --cflags` test/t_mariadb.c
 
 t_mariadb.out: t_mariadb.o
-	gcc t_mariadb.o -lmariadb  -ldl -lm -lpthread -o t_mariadb.out $(mariadb_config --include --libs)
+	$(CC) t_mariadb.o -lmariadb  -ldl -lm -lpthread -o t_mariadb.out $(mariadb_config --include --libs)
 
 t_mariadb.o: test/t_mariadb.c
-	gcc -c -Wall test/t_mariadb.c	$(mariadb_config --include --libs)
+	$(CC) $(CFLAGS) test/t_mariadb.c	$(mariadb_config --include --libs)

@@ -17,11 +17,11 @@
 #include "include/decorate.h"
 #include "include/main.h"
 #include "include/window.h"
+#include "include/init.h"
 
 int data_init(void);
 
 //wchar_t str_header[] = L"Про програму...";
-struct menu_item m_mi[9];
 
 int main() {
   //WINDOW *form;
@@ -66,23 +66,6 @@ void init_color_pairs(void) {
   init_pair(CELLAR_LINE, COLOR_BLUE, COLOR_CYAN);
 
   init_pair(BG_COLOR_PAIR, COLOR_CYAN, COLOR_BLUE);
-}
-
-void init_main_menu(void) {
-  /* Init menu */
-  m.mi = m_mi;
-  m.size = 9;
-  m.header = L"Пошкодження";
-  m.sel_it = 0;
-  m_mi[0].name = L"... на к/м      ";
-  m_mi[1].name = L"... на АБ       ";
-  m_mi[2].name = L"... на ПЕ       ";
-  m_mi[3].name = L"... на ПЛ-10кВ  ";
-  m_mi[4].name = L"... на ПЛ-0.4кВ ";
-  m_mi[5].name = L"... на ПЛ-0.23кВ";
-  m_mi[6].name = L"... на КЛ-10кВ  ";
-  m_mi[7].name = L"... на КЛ-0.4кВ ";
-  m_mi[8].name = L"... на КЛ-0.23кВ";  
 }
 
 void init_ncurses(void) {
