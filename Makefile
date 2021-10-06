@@ -10,7 +10,7 @@ all: $(SOURCES) $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -lform -lncursesw -o ed.out
 
-.cpp.o:
+.c.o:
 	$(CC) $(CFLAGS) $(ncursesw6-config --cflags --libs) $< -o $@
 
 

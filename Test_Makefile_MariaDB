@@ -1,0 +1,18 @@
+CC=gcc
+CFLAGS=-c -Wall
+LDFLAGS=
+SOURCES=test/t_mariadb.c
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=t_mariadb.out
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -lmariadb  -ldl -lm -lpthread -o $(EXECUTABLE) $(mariadb_config --include --libs)
+
+.c.o:
+	$(CC) $(CFLAGS) $(mariadb_config --include --libs) $< -o $@
+
+
+clean:
+	rm -rf *.o *.out
